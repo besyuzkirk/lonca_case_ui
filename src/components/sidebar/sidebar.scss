@@ -1,0 +1,77 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 320px;
+  background-color: #fff;
+  padding-top: 30px; // geciciler
+
+  &__logo {
+    text-align: center;
+
+    img {
+      width: 80%;
+    }
+  }
+
+  &__menu {
+    position: relative;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 2.5rem;
+      margin-left: 2rem;
+      position: relative;
+      transition: all 300ms ease;
+
+      font-size: 14px;
+
+
+      &.active {
+        background: #f9f5f0;
+        margin-left: 0;
+      }
+
+      &.active:before {
+        content: "";
+        width: 8px;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.922);
+        margin-right: calc(1rem - 8px);
+      }
+
+      &__icon {
+        margin-right: 1rem;
+
+        i {
+          font-size: 1.75rem;
+        }
+      }
+    }
+
+
+  }
+}
+
+.sidebar-logout {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.sidebar-logout p {
+  font-size: 1rem;
+  margin-right: .5rem;
+}
+
+.sidebar-welcome {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.vendorname {
+  font-weight: bold;
+}

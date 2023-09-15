@@ -3,23 +3,26 @@ import {DataGrid, GridToolbarContainer, GridToolbarExport, GridToolbar} from "@m
 import {getProductSales} from "../api/productSales";
 import {Stack, TextField, Typography} from "@mui/material";
 import {useAuth} from "../context/AuthContext";
+import CircularDeterminate from "../components/CircularDeterminate";
 
-const DataGridC = () => {
+const ProductSales = () => {
 
     const [salesData, setSalesData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isEmpty , setEmpty ] = useState(false)
 
     const { vendorId }= useAuth()
 
     useEffect(() => {
         getProductSales(vendorId)
             .then((data) => {
-                console.log('Veriler alındı:', data);
+                if(data.data.length === 0) {
+                    setEmpty(true)
+                }
                 setSalesData(data);
                 setLoading(false);
             })
             .catch((error) => {
-                console.error('Veri alınamadı', error);
                 setLoading(false);
             });
     }, []);
@@ -33,23 +36,26 @@ const DataGridC = () => {
 
     return <div>
         {loading ? (
-            <p>Veriler yükleniyor...</p>
+            <CircularDeterminate />
         ) : (
             <div>
-                <DataGrid
-                    sx={{
-                        border: 0,
-                        margin: 'auto',
-                    }}
-                    initialState={{
-                        pagination: {paginationModel: {pageSize: 10}},
-                    }}
-                    pageSizeOptions={[5, 10, 25, 50]}
-                    rows={salesData.data} columns={columns}
-                    getRowId={(row) => row.productNumber}
-                    slots={{toolbar: GridToolbar}}
+                {
+                    isEmpty ? <p>No data provided</p> : <DataGrid
+                        sx={{
+                            border: 0,
+                            margin: 'auto',
+                        }}
+                        initialState={{
+                            pagination: {paginationModel: {pageSize: 10}},
+                        }}
+                        pageSizeOptions={[5, 10, 25, 50]}
+                        rows={salesData.data} columns={columns}
+                        getRowId={(row) => row.productNumber}
+                        slots={{toolbar: GridToolbar}}
 
-                />
+                    />
+                }
+
             </div>
         )}
 
@@ -64,4 +70,4 @@ function Toolbar() {
     );
 }
 
-export default DataGridC;
+export default ProductSales;

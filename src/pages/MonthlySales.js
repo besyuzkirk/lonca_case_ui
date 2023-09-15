@@ -1,10 +1,10 @@
 import SalesChart from "../components/charts/SalesChart";
 
-const Blank = () => {
+const MonthlySales = () => {
     return <div>
 
         <SalesChart />
     </div>;
 };
 
-export default Blank;
+export default MonthlySales;

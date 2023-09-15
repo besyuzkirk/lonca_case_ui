@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
+import MonthlySales from './pages/MonthlySales';
+import ErrorPage from "./pages/ErrorPage";
+
+
+import ProductSales from "./pages/ProductSales";
+import LoginPage from "./pages/LoginPage";
+import {useAuth} from "./context/AuthContext";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    const { isAuthenticated }  = useAuth();
+
+    console.log(isAuthenticated)
+
+    return (
+      <BrowserRouter>
+          <Routes>
+              {isAuthenticated ? (
+                  <Route path='/' element={<AppLayout />}>
+                      <Route index element={<MonthlySales />} />
+                      <Route path='/product_sales' element={<ProductSales />} />
+                      <Route path='/product' element={<ProductSales />} />
+                  </Route>
+              ) : (
+                  <Route path='/' element={<LoginPage />} />
+              )}
+              <Route path='*' element={<ErrorPage />} />
+          </Routes>
+      </BrowserRouter>
   );
 }
 
